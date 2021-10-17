@@ -1,0 +1,28 @@
+---
+- name: Add the OS specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_os_family }}.yml"
+
+- block:
+   - name: Include tasks for setup 
+     include_tasks: "tomcat-setup-{{ ansible_os_family }}.yml"
+  tags: ['setup','never']
+
+- block:
+   - name: Include tasks from health_check.yml
+     include_tasks: health_check.yml
+  tags: ['healthcheck','never']
+
+- block:
+   - name: Include tasks from remove
+     include_tasks: "tomcat-remove-{{ ansible_os_family }}.yml"
+  tags: ['remove', 'never']
+
+- block:
+   - name: Installing apache
+     include_role: 
+       name: geerlingguy.apache
+  tags: ['apache', 'never']
+

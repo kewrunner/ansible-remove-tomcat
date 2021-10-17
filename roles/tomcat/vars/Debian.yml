@@ -1,0 +1,7 @@
+---
+JAVA_HOME: /usr/lib/jvm/default-java
+app_user: "user"
+http_host: "your_domain"
+http_conf: "your_domain.conf"
+http_port: "8080"
+disable_default: true
